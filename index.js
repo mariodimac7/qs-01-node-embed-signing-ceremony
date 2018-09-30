@@ -178,7 +178,7 @@ if (baseUrl == '{base_url}') {
   baseUrl = `http://${host}:${port}`;
   if (process.env.PROJECT_DOMAIN) {
     // Running on glitch.com!
-    baseUrl = process.env.PROJECT_DOMAIN
+    baseUrl = `https://${process.env.PROJECT_DOMAIN}`
   }
 }
 
