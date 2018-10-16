@@ -34,7 +34,7 @@ const docusign = require('docusign-esign')
 // baseUrl is the url of the application's web server. Eg http://localhost:3000
 // In some cases, this example can determine the baseUrl automatically.
 // See the baseUrl statements at the end of this example.
-let baseUrl = envir.BASE_URL || '{base_url}'
+let baseUrl = envir.BASE_URL || '{BASE_URL}'
 
 async function openSigningCeremonyController (req, res) {
   const qp =req.query;
@@ -42,15 +42,15 @@ async function openSigningCeremonyController (req, res) {
   // or environment variables.
 
   // Obtain an OAuth token from https://developers.hqtest.tst/oauth-token-generator
-  const accessToken = envir.ACCESS_TOKEN || qp.ACCESS_TOKEN || '{access_token}';
+  const accessToken = envir.ACCESS_TOKEN || qp.ACCESS_TOKEN || '{ACCESS_TOKEN}';
 
   // Obtain your accountId from demo.docusign.com -- the account id is shown in the drop down on the
-  // upper right corner of the screen by your picture or the default picture.
-  const accountId = envir.ACCOUNT_ID || qp.ACCOUNT_ID || '{account_id}';
+  // upper right corner of the screen by your picture or the default picture. 
+  const accountId = envir.ACCOUNT_ID || qp.ACCOUNT_ID || '{ACCOUNT_ID}'; 
 
-  // Signer and other settings:
-  const signerName = envir.USER_FULLNAME || qp.USER_FULLNAME || '{user_fullname}'
-      , signerEmail = envir.USER_EMAIL || qp.USER_EMAIL || '{user_email}'
+  // Recipient Information:
+  const signerName = envir.USER_FULLNAME || qp.USER_FULLNAME || '{USER_FULLNAME}';
+  const signerEmail = envir.USER_EMAIL || qp.USER_EMAIL || '{USER_EMAIL}';
 
   const clientUserId = '123' // Used to indicate that the signer will use an embedded
                              // Signing Ceremony. Represents the signer's userId within
@@ -176,7 +176,7 @@ const port = process.env.PORT || 3000
        .listen(port);
 
 // If baseUrl was not set then try to figure it out.
-if (baseUrl == '{base_url}') {
+if (baseUrl == '{BASE_URL}') {
   baseUrl = `http://${host}:${port}`;
   if (process.env.PROJECT_DOMAIN) {
     // Running on glitch.com!
