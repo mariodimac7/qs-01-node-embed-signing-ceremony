@@ -25,7 +25,6 @@ const docusign = require('docusign-esign')
     , path = require('path')
     , fs = require('fs')
     , process = require('process')
-    , {promisify} = require('util') // http://2ality.com/2017/05/util-promisify.html
     , basePath = 'https://demo.docusign.net/restapi'
     , express = require('express')
     , envir = process.env
@@ -116,13 +115,10 @@ async function openSigningCeremonyController (req, res) {
   // Set the DocuSign SDK components to use the apiClient object
   docusign.Configuration.default.setDefaultApiClient(apiClient);
   let envelopesApi = new docusign.EnvelopesApi()
-      // createEnvelopePromise returns a promise with the results:
-    , createEnvelopePromise = promisify(envelopesApi.createEnvelope).bind(envelopesApi)
-    , results
-    ;
+    , results;
 
   try {
-    results = await createEnvelopePromise(accountId, {'envelopeDefinition': envDef})
+    results = await envelopesApi.createEnvelope(accountId, {'envelopeDefinition': envDef})
     /**
      * Step 3. The envelope has been created.
      *         Request a Recipient View URL (the Signing Ceremony URL)
@@ -133,10 +129,9 @@ async function openSigningCeremonyController (req, res) {
             recipientId: '1', returnUrl: baseUrl + '/dsreturn',
             userName: signerName, email: signerEmail
           })
-        , createRecipientViewPromise = promisify(envelopesApi.createRecipientView).bind(envelopesApi)
         ;
 
-    results = await createRecipientViewPromise(accountId, envelopeId,
+    results = await envelopesApi.createRecipientView(accountId, envelopeId,
                       {recipientViewRequest: recipientViewRequest});
     /**
      * Step 4. The Recipient View URL (the Signing Ceremony URL) has been received.
